@@ -266,11 +266,7 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
             } => {
                 // see (*) above
                 let is_union = adt_def.is_union();
-                let active_field_index = if is_union {
-                    Some(fields[0].name.index())
-                } else {
-                    None
-                };
+                let active_field_index = is_union.to_option_with(|| fields[0].name.index());
 
                 // first process the set of fields that were provided
                 // (evaluating them in order given by user)

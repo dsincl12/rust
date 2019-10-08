@@ -340,11 +340,7 @@ impl<'a, 'tcx> InferCtxt<'a, 'tcx> {
             return None
         };
 
-        if tcx.has_attr(impl_def_id, sym::rustc_on_unimplemented) {
-            Some(impl_def_id)
-        } else {
-            None
-        }
+        tcx.has_attr(impl_def_id, sym::rustc_on_unimplemented).to_option(impl_def_id)
     }
 
     fn on_unimplemented_note(
