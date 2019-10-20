@@ -414,11 +414,7 @@ impl<'a, Ty> ArgType<'a, Ty> {
         // i686-pc-windows-msvc, it results in wrong stack offsets.
         // attrs.pointee_align = Some(self.layout.align.abi);
 
-        let extra_attrs = if self.layout.is_unsized() {
-            Some(ArgAttributes::new())
-        } else {
-            None
-        };
+        let extra_attrs = self.layout.is_unsized().to_option(ArgAttributes::new());
 
         self.mode = PassMode::Indirect(attrs, extra_attrs);
     }

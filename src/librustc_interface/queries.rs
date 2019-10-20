@@ -87,11 +87,9 @@ pub(crate) struct Queries {
 impl Compiler {
     pub fn dep_graph_future(&self) -> Result<&Query<Option<DepGraphFuture>>> {
         self.queries.dep_graph_future.compute(|| {
-            Ok(if self.session().opts.build_dep_graph() {
-                Some(rustc_incremental::load_dep_graph(self.session()))
-            } else {
-                None
-            })
+            Ok(self.session().opts.build_dep_graph().to_option_with(|| {
+                rustc_incremental::load_dep_graph(self.session())
+            }))
         })
     }
 

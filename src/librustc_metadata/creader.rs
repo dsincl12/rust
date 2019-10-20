@@ -868,11 +868,7 @@ impl<'a> CrateLoader<'a> {
         // First up we check for global allocators. Look at the crate graph here
         // and see what's a global allocator, including if we ourselves are a
         // global allocator.
-        let mut global_allocator = if has_global_allocator {
-            Some(None)
-        } else {
-            None
-        };
+        let mut global_allocator = has_global_allocator.to_option(None);
         self.cstore.iter_crate_data(|_, data| {
             if !data.root.has_global_allocator {
                 return

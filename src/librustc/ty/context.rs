@@ -1572,11 +1572,7 @@ impl<'tcx> TyCtxt<'tcx> {
             ty::FnDef(_, _) => {
                 let sig = ret_ty.fn_sig(*self);
                 let output = self.erase_late_bound_regions(&sig.output());
-                if output.is_impl_trait() {
-                    Some(output)
-                } else {
-                    None
-                }
+                output.is_impl_trait().to_option(output)
             }
             _ => None
         }
